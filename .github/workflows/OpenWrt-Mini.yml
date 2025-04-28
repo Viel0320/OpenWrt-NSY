@@ -34,20 +34,20 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
-    # - name: Check Server Performance
-    #   run: |
-    #     echo "警告⚠"
-    #     echo "分配的服务器性能有限，若选择的插件过多，务必注意CPU性能！"
-    #     echo -e "已知CPU型号(降序): 7763，8370C，8272CL，8171M，E5-2673\n"
-    #     echo "--------------------------CPU信息--------------------------"
-    #     echo "CPU物理数量: $(cat /proc/cpuinfo | grep "physical id" | sort | uniq | wc -l)"
-    #     echo "CPU核心数量: $(nproc)"
-    #     echo -e "CPU型号信息:$(cat /proc/cpuinfo | grep -m1 name | awk -F: '{print $2}')\n"
-    #     echo "--------------------------内存信息--------------------------"
-    #     echo "已安装内存详细信息:"
-    #     echo -e "$(sudo lshw -short -C memory | grep GiB)\n"
-    #     echo "--------------------------硬盘信息--------------------------"
-    #     echo "硬盘数量: $(ls /dev/sd* | grep -v [1-9] | wc -l)" && df -hT
+    - name: Check Server Performance
+      run: |
+        echo "警告⚠"
+        echo "分配的服务器性能有限，若选择的插件过多，务必注意CPU性能！"
+        echo -e "已知CPU型号(降序): 7763，8370C，8272CL，8171M，E5-2673\n"
+        echo "--------------------------CPU信息--------------------------"
+        echo "CPU物理数量: $(cat /proc/cpuinfo | grep "physical id" | sort | uniq | wc -l)"
+        echo "CPU核心数量: $(nproc)"
+        echo -e "CPU型号信息:$(cat /proc/cpuinfo | grep -m1 name | awk -F: '{print $2}')\n"
+        echo "--------------------------内存信息--------------------------"
+        echo "已安装内存详细信息:"
+        echo -e "$(sudo lshw -short -C memory | grep GiB)\n"
+        echo "--------------------------硬盘信息--------------------------"
+        echo "硬盘数量: $(ls /dev/sd* | grep -v [1-9] | wc -l)" && df -hT
 
     - name: Release Space
       uses: jlumbroso/free-disk-space@main
@@ -68,7 +68,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        # df -hT
+        df -hT
         # docker rmi $(docker images -q)
         sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android $AGENT_TOOLSDIRECTORY
         sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
@@ -86,7 +86,7 @@ jobs:
       id: clone
       run: |
         #df -hT $GITHUB_WORKSPACE
-        #df -hT
+        df -hT
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
@@ -106,7 +106,7 @@ jobs:
     - name: Generate Variables
       id: variable
       run: |
-        #df -hT
+        df -hT
         cp $CONFIG_FILE $OPENWRT_PATH/.config
         cd $OPENWRT_PATH
         make defconfig > /dev/null 2>&1
@@ -129,14 +129,14 @@ jobs:
 
     - name: Install Feeds
       run: |
-        #df -hT
+        df -hT
         cd $OPENWRT_PATH
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
     - name: Load Custom Configuration
       run: |
-        #df -hT
+        df -hT
         [ -e files ] && mv files $OPENWRT_PATH/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE $OPENWRT_PATH/.config
         chmod +x $GITHUB_WORKSPACE/scripts/*.sh
@@ -148,7 +148,7 @@ jobs:
 
     - name: Download DL Package
       run: |
-        #df -hT
+        df -hT
         cd $OPENWRT_PATH
         make defconfig
         make download -j8
@@ -158,7 +158,7 @@ jobs:
     - name: Compile Firmware
       id: compile
       run: |
-        #df -hT
+        df -hT
         cd $OPENWRT_PATH
         mkdir -p files/etc/uci-defaults
         cp $GITHUB_WORKSPACE/scripts/init-settings.sh files/etc/uci-defaults/99-init-settings
@@ -169,9 +169,9 @@ jobs:
         echo "TAG_DATE=$(date +"%Y.%m.%d-%H.%M")" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y.%m.%d")" >> $GITHUB_ENV
 
-    # - name: Check Space Usage
-    #   if: (!cancelled())
-    #   run: df -hT
+    - name: Check Space Usage
+      if: (!cancelled())
+      run: df -hT
 
     - name: Upload Bin Directory
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
@@ -182,7 +182,7 @@ jobs:
 
     - name: Modify Uboot Image
       run: |
-        # df -hT
+        df -hT
         cd $OPENWRT_PATH/bin/targets/rockchip/armv8
         chmod +x $GITHUB_WORKSPACE/scripts/modify-uboot-image.sh
         $GITHUB_WORKSPACE/scripts/modify-uboot-image.sh
