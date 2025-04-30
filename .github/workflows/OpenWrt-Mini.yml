@@ -33,7 +33,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@main
+      with:
+        ref: master
+        fetch-depth: 0
+      
 
+
+          
     - name: Check Server Performance
       run: |
         echo "警告⚠"
@@ -102,6 +108,7 @@ jobs:
         COMMIT_HASH=$(git show -s --date=short --format="hash: %H")
         echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_ENV
         echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_OUTPUT
+        
 
     - name: Generate Variables
       id: variable
@@ -126,6 +133,9 @@ jobs:
         ccache: false
         mixkey: ${{ env.SOURCE_REPO }}-${{ env.REPO_BRANCH }}-${{ env.DEVICE_TARGET }}-${{ env.DEVICE_SUBTARGET }}
         prefix: ${{ env.OPENWRT_PATH }}
+        toolchain: true
+        skip: true
+        clean: false
 
     - name: Install Feeds
       run: |
