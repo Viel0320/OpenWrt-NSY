@@ -77,9 +77,8 @@ rm -rf feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background/*
 git_sparse_clone main https://github.com/linkease/istore-ui app-store-ui
 git_sparse_clone main https://github.com/linkease/istore luci
 
-#nikki
-git_sparse_clone main https://github.com/kiddin9/kwrt-packages luci-app-nikki
-git_sparse_clone main https://github.com/kiddin9/kwrt-packages luci-app-istorex
+#kwrt-packages
+git clone --depth=1 https://github.com/kiddin9/kwrt-packages package/kwrt-packages
 
 # 在线用户
 git_sparse_clone main https://github.com/haiibo/packages luci-app-onliner
