@@ -77,6 +77,10 @@ rm -rf feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background/*
 git_sparse_clone main https://github.com/linkease/istore-ui app-store-ui
 git_sparse_clone main https://github.com/linkease/istore luci
 
+#nikki
+git_sparse_clone main https://github.com/kiddin9/kwrt-packages luci-app-nikki
+git_sparse_clone main https://github.com/kiddin9/kwrt-packages luci-app-istorex
+
 # 在线用户
 git_sparse_clone main https://github.com/haiibo/packages luci-app-onliner
 sed -i '$i uci set nlbwmon.@nlbwmon[0].refresh_interval=2s' package/lean/default-settings/files/zzz-default-settings
@@ -206,8 +210,6 @@ tar -xvf rtl8367b.tar.gz
 # 定时限速插件
 git clone --depth=1 https://github.com/sirpdboy/luci-app-eqosplus package/luci-app-eqosplus
 
-#nikki
-git clone --depth=1 https://github.com/nikkinikki-org/OpenWrt-nikki
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a
