@@ -8,7 +8,7 @@ echo 'src-git kiddin9 https://github.com/kiddin9/kwrt-packages.git;main' >> feed
 # sed -i 's/\/bin\/ash/\/usr\/bin\/zsh/g' package/base-files/files/etc/passwd
 
 # TTYD 免登录
-# sed -i 's|/bin/login|/bin/login -f root|g' feeds/packages/utils/ttyd/files/ttyd.config
+sed -i 's|/bin/login|/bin/login -f root|g' feeds/packages/utils/ttyd/files/ttyd.config
 
 
 
