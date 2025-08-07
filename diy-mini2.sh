@@ -128,6 +128,7 @@ chmod 755 package/base-files/files/bin/coremark.sh
 
 
 # 动态适配农商云g68,农商云g16,彼度云g18机型，不懂的别乱修改
+# 复制 02_network 网络配置文件到 target/linux/rockchip/armv8/base-files/etc/board.d/ 目录下
 cp -f $GITHUB_WORKSPACE/configfiles/02_network target/linux/rockchip/armv8/base-files/etc/board.d/02_network
 
 
@@ -186,8 +187,8 @@ cp -f $GITHUB_WORKSPACE/configfiles/dts/rk3588-orangepi-5-plus.dts target/linux/
 
 
 # rtl8367b驱动资源包，暂时使用这样替换
-wget https://github.com/xiaomeng9597/files/releases/download/files/rtl8367b-fix-gmac-lede.tar.gz
-tar -xvf rtl8367b-fix-gmac-lede.tar.gz
+wget https://github.com/xiaomeng9597/files/releases/download/files/rtl8367b-lede.tar.gz
+tar -xvf rtl8367b-lede.tar.gz
 
 
 # openwrt主线rtl8367b驱动资源包，暂时使用这样替换
