@@ -119,9 +119,9 @@ rm -f feeds/luci/applications/luci-app-ttyd/luasrc/view/terminal/terminal.htm
 wget -P feeds/luci/applications/luci-app-ttyd/luasrc/view/terminal https://xiaomeng9597.github.io/terminal.htm
 
 # 集成CPU性能跑分脚本
-# cp -a $GITHUB_WORKSPACE/configfiles/coremark/* package/base-files/files/bin/
-# chmod 755 package/base-files/files/sbin/coremark
-cp -f $GITHUB_WORKSPACE/configfiles/coremark/coremark.sh package/base-files/files/bin/coremark.sh
+cp -f $GITHUB_WORKSPACE/configfiles/coremark/coremark-arm64 package/base-files/files/bin/coremark-arm64
+cp -f $GITHUB_WORKSPACE/configfiles/coremark/coremark-arm64.sh package/base-files/files/bin/coremark.sh
+chmod 755 package/base-files/files/bin/coremark-arm64
 chmod 755 package/base-files/files/bin/coremark.sh
 
 
@@ -189,6 +189,7 @@ cp -f $GITHUB_WORKSPACE/configfiles/dts/rk3588-orangepi-5-plus.dts target/linux/
 # 集成 nsy_g68-plus WiFi驱动
 mkdir -p package/base-files/files/lib/firmware/mediatek
 cp -f $GITHUB_WORKSPACE/configfiles/WirelessDriver/mt7916_eeprom.bin package/base-files/files/lib/firmware/mediatek/mt7916_eeprom.bin
+cp -f $GITHUB_WORKSPACE/configfiles/WirelessDriver/mt7916_eeprom_backup.bin package/base-files/files/lib/firmware/mediatek/mt7916_eeprom_backup.bin
 
 
 # rtl8367b驱动资源包，暂时使用这样替换
